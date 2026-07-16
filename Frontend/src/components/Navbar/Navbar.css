@@ -1,0 +1,156 @@
+
+.navbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  height: 60px;
+  background-color: var(--color-bg);
+  border-bottom: 2px solid var(--color-secondary);
+  font-family: var(--main-font), sans-serif;
+}
+
+/* ── Brand ──────────────────── */
+.navbar__brand {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navbar__brand:hover {
+  opacity: 0.65;
+}
+
+/* ── Controles derechos ─────── */
+.navbar__controls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* ── Botón + ────────────────── */
+.navbar__menu-wrapper {
+  position: relative;
+}
+
+.navbar__add-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--color-primary);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar__add-btn:hover {
+  background-color: var(--color-secondary);
+}
+
+.navbar__add-btn--active {
+  background-color: var(--color-secondary);
+}
+
+.navbar__add-icon {
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 300;
+  display: block;
+}
+
+/* ── Dropdown ───────────────── */
+.navbar__dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  min-width: 180px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 0.4rem;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.1);
+
+  /* Animación de apertura */
+  opacity: 0;
+  transform: translateY(-6px) scale(0.97);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.navbar__dropdown--open {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: all;
+}
+
+.navbar__dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.875rem;
+  color: var(--color-primary);
+  text-align: left;
+  transition: background-color 0.15s ease;
+}
+
+.navbar__dropdown-item:hover {
+  background-color: var(--color-secondary);
+}
+
+.navbar__dropdown-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+/* ── Avatar circular ────────── */
+.navbar__avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 2px solid var(--color-secondary);
+  background-color: var(--color-card);
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.navbar__avatar:hover {
+  border-color: var(--color-accent);
+  transform: scale(1.05);
+}
+
+.navbar__avatar-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.navbar__avatar-initials {
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  letter-spacing: 0.02em;
+  pointer-events: none;
+}

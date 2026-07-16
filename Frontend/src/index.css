@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+
+:root {
+  --color-primary: #0f172a; /* Tipografia Principal*/
+  --color-accent: #586F6B; /* Color para acentuar botones y UX */
+  --color-secondary: #CFC0BD; /* Otros */
+  --color-card: #B8B8AA ; /* Color para diferenciar elementos en pantalla (Tarjetas, etc) */
+  --color-bg: #DDD5D0; /* Color para fondos */
+
+  --main-font: "Roboto";
+}
+
+body{
+  background-color: var(--color-bg);
+}
