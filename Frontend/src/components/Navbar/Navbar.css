@@ -119,6 +119,43 @@
   flex-shrink: 0;
 }
 
+/* ── COLOR DEL TEMA ────────── */
+
+.navbar__toggle-mode{
+  width: 30px;
+  height: 30px;
+  font-size: 200%;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.navbar__toggle-mode:hover {
+  transform: scale(1.05);
+}
+
+.navbar__theme-icon {
+  position: absolute;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.navbar__theme-icon.icon-enter {
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.navbar__theme-icon.icon-exit {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.5);
+}
+
 /* ── Avatar circular ────────── */
 .navbar__avatar {
   width: 36px;

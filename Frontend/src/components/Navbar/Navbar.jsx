@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import "./Navbar.css";
 
 // QUE ME FALTA ACA?
 // Colocar el llamado a api para obtener informacion del usuario, ademas debo de configurar el handle para los botones de unirse a un aula o crear un aula
 
 const Navbar = ({ userName = "Usuario", userAvatar = null }) => {
+
+    const [themeColor, setThemeColor] = useState(false); // Si es falso sera modo claro, si es true sera modo oscuro
     const [menuOpen, setMenuOpen] = useState(false);
     const menuRef = useRef(null);
 
@@ -34,6 +37,19 @@ const Navbar = ({ userName = "Usuario", userAvatar = null }) => {
         .slice(0, 2)
         .toUpperCase();
 
+    const handleThemeColor = () => {
+        setThemeColor(!themeColor)
+    }
+
+    // PARA EL MODO OSCURO/CLARO
+    useEffect(() => {
+        if (themeColor) {
+            document.documentElement.setAttribute("data-theme", "dark");
+        } else {
+            document.documentElement.setAttribute("data-theme", "light");
+        }
+    }, [themeColor]);
+    
     return (
         <nav className="navbar">
             <Link to="/home" className="navbar__brand">
@@ -41,6 +57,12 @@ const Navbar = ({ userName = "Usuario", userAvatar = null }) => {
             </Link>
 
             <div className="navbar__controls">
+                <button className="navbar__toggle-mode"
+                    onClick={handleThemeColor}>
+                    <IoSunnyOutline className={`navbar__theme-icon ${themeColor ? 'icon-enter' : 'icon-exit'}`} />
+
+                    <IoMoonOutline className={`navbar__theme-icon ${!themeColor ? 'icon-enter' : 'icon-exit'}`} />
+                </button>
                 
                 {/* Botón para unirse o crear aula virtual */}
                 <div className="navbar__menu-wrapper" ref={menuRef}>
@@ -68,7 +90,7 @@ const Navbar = ({ userName = "Usuario", userAvatar = null }) => {
 
                 
                 {/* Avatar circular */}
-                <button className="navbar__avatar" aria-label="Perfil de usuario">
+                <button className="navbar__avatar">
                     {userAvatar ? (
                         <img src={userAvatar} alt={userName} className="navbar__avatar-img" />
                     ) : (

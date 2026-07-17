@@ -10,6 +10,14 @@
   --main-font: "Roboto";
 }
 
+[data-theme="dark"] {
+  --color-primary: #f8fafc; /* Tipografia Principal clara */
+  --color-accent: #34d399; /* Color para acentuar (más brillante) */
+  --color-secondary: #334155; /* Otros (más oscuro) */
+  --color-card: #1e293b; /* Color para tarjetas */
+  --color-bg: #0f172a; /* Fondo principal oscuro */
+}
+
 body{
   background-color: var(--color-bg);
 }
