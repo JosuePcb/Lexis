@@ -1,0 +1,20 @@
+{
+  "name": "lexis",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "concurrently -n \"frontend,backend\" -c \"cyan,green\" \"pnpm -F frontend dev\" \"pnpm -F backend dev\"",
+    "dev:frontend": "pnpm -F frontend dev",
+    "dev:backend": "pnpm -F backend dev",
+    "build": "pnpm -F frontend build",
+    "lint": "pnpm -F frontend lint",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down",
+    "db:reset": "docker compose down -v && docker compose up -d",
+    "db:logs": "docker compose logs -f postgres"
+
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

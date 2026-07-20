@@ -1,7 +1,7 @@
 # Requisitos Funcionales
 
 ### Nivel de usuarios
-- [ ] Registro e inicio de sesion de usuarios.
+- [x] Registro e inicio de sesion de usuarios.
 - [ ] Perfiles de usuario, permitir editar informacion basica.
 
 ### Gestion de Aulas Virtuales
@@ -25,7 +25,6 @@
 - [ ] **Retroalimentacion:** 
     - El docente debe poder visualizar los archivos entregados por cada alumno.
     - El docente debe poder asignar calificacion numerica.
-    - El estudiante y el docente deben tener una seccion de comentarios privados para la retroalimentacion sobre la evaluacion.
 
 ### Libreta de calificaciones
 
@@ -34,5 +33,5 @@
 - [ ] Vista del Estudiante: Un panel individual donde el alumno ve únicamente su historial de tareas entregadas, pendientes, calificadas.
 
 # Requisitos No Funcionales
-- [ ] Autorización Estricta. El backend debe validar que el token de sesión (JWT) tenga los permisos adecuados antes de permitir cualquier operación.
+- [x] Autorización Estricta. El backend debe validar que el token de sesión (JWT) tenga los permisos adecuados antes de permitir cualquier operación.
 - [ ] Diseño Responsivo. La interfaz de usuario debe ser 100% responsiva, adaptándose perfectamente a dispositivos móviles.
