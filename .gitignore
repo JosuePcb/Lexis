@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Environment variables (nunca commitear el .env real)
+.env
+.env.local
+.env.*.local
+
+# Docker volumes locales
+postgres_data/
+pgadmin_data/
