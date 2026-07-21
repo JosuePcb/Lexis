@@ -1,12 +1,22 @@
 // RoomCard.jsx — Tarjeta que representa un aula virtual en la grilla de Home.
 // Muestra el nombre del aula, el docente y la sección.
-// El prop id se pasa para uso futuro (navegación al detalle del aula).
+// Al hacer clic navega a /classroom/:id para ver el detalle del aula.
 
+import { useNavigate } from "react-router-dom";
 import "./RoomCard.css";
 
-const RoomCard = ({ name, teacherName, seccion }) => {
+const RoomCard = ({ id, name, teacherName, seccion }) => {
+    const navigate = useNavigate();
+
+    // Navega a la página de detalle del aula al hacer clic en la tarjeta.
+    // Pasa los datos básicos del aula como state para que ClassroomDetail
+    // pueda mostrar el nombre sin necesitar un fetch adicional.
+    const handleClick = () => {
+        navigate(`/classroom/${id}`, { state: { name, teacherName, seccion } });
+    };
+
     return (
-        <article className="roomcard">
+        <article className="roomcard" onClick={handleClick} style={{ cursor: "pointer" }}>
             <div className="roomcard__body">
                 <h2 className="roomcard__name">{name}</h2>
                 <div className="roomcard__meta">

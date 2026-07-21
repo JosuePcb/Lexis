@@ -9,6 +9,7 @@ import { Navbar } from './components'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ClassroomDetail from './pages/ClassroomDetail'
 import './App.css'
 
 function App() {
@@ -29,6 +30,8 @@ function App() {
         <Route path="/home" element={<Home key={classroomRefreshKey} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        {/* Detalle de un aula — navegación desde RoomCard */}
+        <Route path="/classroom/:id" element={<ClassroomDetail />} />
       </Routes>
     </>
   )
