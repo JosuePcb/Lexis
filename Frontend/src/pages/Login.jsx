@@ -23,7 +23,7 @@ const Login = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ email, password }), // Envia email y password en el request para login
       });
 
       const data = await response.json();
@@ -34,11 +34,11 @@ const Login = () => {
 
       // Guardar sesión en contexto y redirigir
       login(data.token, data.user);
-      navigate("/home");
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
+      navigate("/home"); // Redirige a la pantalla principal si inicio sesion correctamente
+    } catch (err) { // Catch del try
+      setError(err.message); // Muestra el mensaje de error
+    } finally { // Finally del try
+      setLoading(false); // Detiene la carga
     }
   };
 

@@ -1,3 +1,5 @@
+// Este archivo maneja todo la logica de registro e inicio de sesion.
+
 import { User } from "../models/index.js";
 import { hashPassword, comparePassword, generateToken } from "../utils/auth.js";
 
@@ -20,12 +22,12 @@ export const register = async (req, res) => {
       errors.role = "El rol debe ser 'teacher' o 'student'.";
     }
 
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(errors).length > 0) { // Esta linea crea un objeto con los errores y verifica si tiene mas de 0 errores, si tiene mas de 0 errores, retorna un error 400
       return res.status(400).json({
         error: {
           code: "VALIDATION_ERROR",
           message: "Los datos de registro no son válidos.",
-          details: errors,
+          details: errors, // Retorna los errores que hayan
         },
       });
     }
@@ -51,7 +53,7 @@ export const register = async (req, res) => {
     });
 
     // 4. Generación de Token para Login Automático
-    const token = generateToken(newUser);
+    const token = generateToken(newUser); // Firma el token con la info del usuario, definido en utils/auth.js
 
     return res.status(201).json({
       message: "Usuario registrado con éxito.",
@@ -62,14 +64,14 @@ export const register = async (req, res) => {
         role: newUser.role,
         createdAt: newUser.createdAt,
       },
-      token,
+      token, // Se envia el token en la response
     });
-  } catch (error) {
+  } catch (error) { // Catch del try
     console.error("Error en el registro:", error);
     return res.status(500).json({
       error: {
         code: "INTERNAL_SERVER_ERROR",
-        message: "Ocurrió un error inesperado en el servidor.",
+        message: "Ocurrió un error inesperado en el servidor.", 
       },
     });
   }
