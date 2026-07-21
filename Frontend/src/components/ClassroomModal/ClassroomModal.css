@@ -1,0 +1,160 @@
+// ClassroomModal.css — Estilos compartidos para los modales de Crear y Unirse a aula.
+// Incluye: overlay oscuro, contenedor del modal, formulario, campo de código, botones.
+
+/* Overlay oscuro que cubre toda la pantalla */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 1rem;
+}
+
+/* Contenedor del modal */
+.modal {
+  background: var(--color-bg);
+  border: 1px solid var(--color-secondary);
+  border-radius: 12px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.modal__title {
+  font-family: var(--main-font);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0 0 1.25rem;
+}
+
+.modal__text {
+  color: var(--color-primary);
+  margin: 0 0 1rem;
+  font-size: 0.95rem;
+}
+
+/* Código generado — estilo monoespaciado grande para que sea fácil copiar */
+.modal__code {
+  font-family: monospace;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 0.25em;
+  text-align: center;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border: 2px dashed var(--color-secondary);
+  border-radius: 8px;
+  color: var(--color-accent);
+  background: var(--color-card);
+}
+
+/* Mensaje de error */
+.modal__error {
+  background: rgba(239, 68, 68, 0.1);
+  border-left: 4px solid #ef4444;
+  padding: 0.75rem 1rem;
+  border-radius: 0 6px 6px 0;
+  color: #ef4444;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.modal__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.modal__field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.modal__label {
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-primary);
+}
+
+.modal__input {
+  font-family: var(--main-font);
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--color-secondary);
+  border-radius: 6px;
+  background: var(--color-bg);
+  color: var(--color-primary);
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.modal__input:focus {
+  border-color: var(--color-accent);
+}
+
+.modal__input::placeholder {
+  color: var(--color-primary);
+  opacity: 0.4;
+}
+
+/* Input de código — estilo monoespaciado para los 6 caracteres */
+.modal__input--code {
+  font-family: monospace;
+  font-size: 1.25rem;
+  letter-spacing: 0.2em;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.modal__textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+
+.modal__btn {
+  font-family: var(--main-font);
+  padding: 0.55rem 1.25rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.modal__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.modal__btn--primary {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+.modal__btn--primary:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.modal__btn--secondary {
+  background: var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.modal__btn--secondary:hover {
+  opacity: 0.8;
+}

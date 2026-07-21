@@ -1,3 +1,7 @@
+// RoomCard.jsx — Tarjeta que representa un aula virtual en la grilla de Home.
+// Muestra el nombre del aula, el docente y la sección.
+// El prop id se pasa para uso futuro (navegación al detalle del aula).
+
 import "./RoomCard.css";
 
 const RoomCard = ({ name, teacherName, seccion }) => {

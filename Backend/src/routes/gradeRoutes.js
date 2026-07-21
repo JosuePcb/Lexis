@@ -7,7 +7,9 @@ import { authenticateToken, authorizeRoles } from "../middleware/auth.js";
 
 const router = Router();
 
-router.get("/classroom/:classroomId/teacher", authenticateToken, authorizeRoles("docente"), getTeacherGradebook);
-router.get("/classroom/:classroomId/student", authenticateToken, authorizeRoles("estudiante"), getStudentGradebook);
+// GET /api/grades/classroom/:classroomId/teacher — Libreta de calificaciones vista docente
+router.get("/classroom/:classroomId/teacher", authenticateToken, authorizeRoles("teacher"), getTeacherGradebook);
+// GET /api/grades/classroom/:classroomId/student — Libreta de calificaciones vista estudiante
+router.get("/classroom/:classroomId/student", authenticateToken, authorizeRoles("student"), getStudentGradebook);
 
 export default router;

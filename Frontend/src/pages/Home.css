@@ -7,3 +7,17 @@
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 1.75rem;
 }
+
+.home__message {
+    text-align: center;
+    color: var(--color-primary);
+    opacity: 0.6;
+    font-family: var(--main-font);
+    font-size: 1.1rem;
+    padding: 4rem 2rem;
+}
+
+.home__message--error {
+    color: #ef4444;
+    opacity: 1;
+}

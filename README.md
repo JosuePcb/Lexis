@@ -5,9 +5,9 @@
 - [ ] Perfiles de usuario, permitir editar informacion basica.
 
 ### Gestion de Aulas Virtuales
-- [ ] **Creacion de clases**. Se debe poder crear aulas virtuales asignando nombre, seccion y descripcion. 
+- [X] **Creacion de clases**. Se debe poder crear aulas virtuales asignando nombre, seccion y descripcion. 
 - [ ] Se debe poder **editar** la informacion sobre el aula virtual.
-- [ ] El aula debe crear un **codigo unico** por clase, para que los estudiantes puedan unirse de forma manual.
+- [X] El aula debe crear un **codigo unico** por clase, para que los estudiantes puedan unirse de forma manual.
 - [ ] Panel que muestre los alumnos inscritos, con opcion de expulsar usuarios.
 
 ### Publicacion y gestion de contenido 
@@ -34,4 +34,23 @@
 
 # Requisitos No Funcionales
 - [x] Autorización Estricta. El backend debe validar que el token de sesión (JWT) tenga los permisos adecuados antes de permitir cualquier operación.
-- [ ] Diseño Responsivo. La interfaz de usuario debe ser 100% responsiva, adaptándose perfectamente a dispositivos móviles.
+- [X] Diseño Responsivo. La interfaz de usuario debe ser 100% responsiva, adaptándose perfectamente a dispositivos móviles.
+
+# Generación de Código de Aula
+
+Cuando un docente crea un aula, el sistema genera automáticamente un **código único de 6 caracteres** (hexadecimal, Mayúsculas) que los estudiantes necesitan para unirse.
+
+**Flujo:**
+
+1. El docente envía `POST /api/classrooms` con `name` (requerido), `section` y `description` (opcionales).
+2. El backend genera un código aleatorio de 6 caracteres hex (`A0-F2C1` por ejemplo) usando `crypto.randomBytes(3)`.
+3. Se verifica que el código sea único consultando la tabla `Courses`. Si ya existe, se genera otro hasta encontrar uno disponible.
+4. Se crea el `Course` con el código asignado y se inscribe automáticamente al docente como primer miembro (`Enrollment`).
+5. El código se devuelve en la respuesta y se muestra al docente en el modal de creación.
+
+**Unión de estudiantes:**
+
+1. El estudiante introduce el código de 6 caracteres en el modal "Unirse a un Aula".
+2. El backend normaliza el código a mayúsculas y busca un `Course` con ese `courseCode`.
+3. Si no existe → error `404`. Si el estudiante ya está inscrito → error `409`.
+4. Si es válido, se crea el `Enrollment` y se devuelve la información del aula.
