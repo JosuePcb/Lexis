@@ -48,11 +48,10 @@ const Navbar = () => {
             .toUpperCase()
         : "U";
 
+    // PARA EL MODO OSCURO/CLARO
     const handleThemeColor = () => {
         setThemeColor(!themeColor)
     }
-
-    // PARA EL MODO OSCURO/CLARO
     useEffect(() => {
         if (themeColor) {
             document.documentElement.setAttribute("data-theme", "dark");
@@ -92,11 +91,14 @@ const Navbar = () => {
                                     Crear Aula
                                 </button>
                             )}
-                            <button
-                                className="navbar__dropdown-item"
-                                onClick={() => handleMenuOption(() => console.log("Invitar personas"))}>
-                                Unirse a un Aula
-                            </button>
+                            
+                            {!isTeacher() && (
+                                <button
+                                    className="navbar__dropdown-item"
+                                    onClick={() => handleMenuOption(() => console.log("Unirse a un Aula"))}>
+                                    Unirse a un Aula
+                                </button>
+                            )}
                         </div>
                     </div>
                 )}
@@ -124,7 +126,7 @@ const Navbar = () => {
                         </div>
                     </div>
                 ) : (
-                    <Link to="/login" className="px-4 py-2 text-sm font-medium text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+                    <Link to="/login" className="navbar__login-btn">
                         Iniciar Sesión
                     </Link>
                 )}

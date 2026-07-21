@@ -135,6 +135,7 @@
   justify-content: center;
   position: relative;
   transition: transform 0.2s ease;
+  color: var(--color-primary);
 }
 
 .navbar__toggle-mode:hover {
@@ -190,4 +191,21 @@
   color: var(--color-primary);
   letter-spacing: 0.02em;
   pointer-events: none;
+}
+
+/* ── Botón Iniciar Sesión ───── */
+.navbar__login-btn {
+  padding: 0.5rem 1rem;
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #ffffff;
+  background-color: var(--color-accent);
+  border-radius: 6px;
+  text-decoration: none;
+  transition: opacity 0.2s ease;
+}
+
+.navbar__login-btn:hover {
+  opacity: 0.9;
 }

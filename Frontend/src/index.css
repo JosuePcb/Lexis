@@ -2,21 +2,21 @@
 @import "tailwindcss";
 
 :root {
-  --color-primary: #0f172a; /* Tipografia Principal*/
-  --color-accent: #586F6B; /* Color para acentuar botones y UX */
-  --color-secondary: #CFC0BD; /* Otros */
-  --color-card: #B8B8AA ; /* Color para diferenciar elementos en pantalla (Tarjetas, etc) */
-  --color-bg: #DDD5D0; /* Color para fondos */
+  --color-primary: #1C1917;   /* Tipografia Principal (Deep Espresso - Máximo contraste) */
+  --color-accent: #B86846;    /* Color para acentuar (Terracotta Warm) */
+  --color-secondary: #A89F91; /* Elementos secundarios y bordes (Warm Taupe) */
+  --color-card: #E8E2D5;      /* Tarjetas y contenedores (Parchment Cream) */
+  --color-bg: #F5F0E6;        /* Fondo principal (Rich Warm Cream) */
 
   --main-font: "Roboto";
 }
 
 [data-theme="dark"] {
-  --color-primary: #f8fafc; /* Tipografia Principal clara */
-  --color-accent: #34d399; /* Color para acentuar (más brillante) */
-  --color-secondary: #334155; /* Otros (más oscuro) */
-  --color-card: #1e293b; /* Color para tarjetas */
-  --color-bg: #0f172a; /* Fondo principal oscuro */
+  --color-primary: #FAF8F5;   /* Tipografia Principal (Minimal Alabaster Cream - Alto contraste) */
+  --color-accent: #D97736;    /* Color para acentuar (Warm Amber) */
+  --color-secondary: #8C8275; /* Elementos secundarios y bordes (Muted Warm Taupe) */
+  --color-card: #2D2825;      /* Tarjetas y contenedores (Dark Roast Espresso) */
+  --color-bg: #1C1917;        /* Fondo principal oscuro (Deep Espresso) */
 }
 
 body{

@@ -25,7 +25,7 @@ app.use("/api/posts", postRoutes);
 app.use("/api/grades", gradeRoutes);
 
 app.get("/", (req, res) => {
-  res.json({ message: "Lexis API funciona 🚀" });
+  res.json({ message: "Lexis API funciona" });
 });
 
 // Sincronizar la base de datos y levantar el servidor
