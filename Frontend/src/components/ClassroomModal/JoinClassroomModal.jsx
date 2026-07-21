@@ -1,8 +1,11 @@
 // JoinClassroomModal — Modal para que el estudiante se una a un aula virtual.
+// Usa React Portal para renderizar directamente en document.body, evitando que
+// el position:sticky del Navbar afecte el centrado del modal.
 // Muestra un input donde ingresa el courseCode de 6 caracteres.
 // Al enviar, llama a POST /api/classrooms/join y cierra el modal si fue exitoso.
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { api } from "../../api";
 import "./ClassroomModal.css";
 
@@ -29,7 +32,7 @@ export const JoinClassroomModal = ({ onClose, onJoined }) => {
     }
   };
 
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h2 className="modal__title">Unirse a un Aula</h2>
@@ -64,6 +67,7 @@ export const JoinClassroomModal = ({ onClose, onJoined }) => {
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

@@ -1,8 +1,11 @@
 // CreateClassroomModal — Modal para que el docente cree un nuevo aula virtual.
+// Usa React Portal para renderizar directamente en document.body, evitando que
+// el position:sticky del Navbar afecte el centrado del modal.
 // Muestra un formulario con nombre (requerido), sección y descripción (opcionales).
 // Al enviar, llama a POST /api/classrooms y muestra el courseCode generado al docente.
 
 import { useState } from "react";
+import { createPortal } from "react-dom";
 import { api } from "../../api";
 import "./ClassroomModal.css";
 
@@ -36,7 +39,7 @@ export const CreateClassroomModal = ({ onClose, onCreated }) => {
 
   // Después de crear el aula, muestra una pantalla con el código para compartir
   if (courseCode) {
-    return (
+    return createPortal(
       <div className="modal-overlay" onClick={onClose}>
         <div className="modal" onClick={(e) => e.stopPropagation()}>
           <h2 className="modal__title">Aula Creada</h2>
@@ -46,12 +49,13 @@ export const CreateClassroomModal = ({ onClose, onCreated }) => {
             Cerrar
           </button>
         </div>
-      </div>
+      </div>,
+      document.body
     );
   }
 
   // Formulario de creación del aula
-  return (
+  return createPortal(
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal" onClick={(e) => e.stopPropagation()}>
         <h2 className="modal__title">Crear Aula</h2>
@@ -107,6 +111,7 @@ export const CreateClassroomModal = ({ onClose, onCreated }) => {
           </div>
         </form>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };

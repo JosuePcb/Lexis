@@ -1,19 +1,18 @@
-// ClassroomModal.css — Estilos compartidos para los modales de Crear y Unirse a aula.
-// Incluye: overlay oscuro, contenedor del modal, formulario, campo de código, botones.
-
-/* Overlay oscuro que cubre toda la pantalla */
 .modal-overlay {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  z-index: 9999;
   padding: 1rem;
+  margin: 0;
 }
 
-/* Contenedor del modal */
 .modal {
   background: var(--color-bg);
   border: 1px solid var(--color-secondary);
@@ -38,7 +37,6 @@
   font-size: 0.95rem;
 }
 
-/* Código generado — estilo monoespaciado grande para que sea fácil copiar */
 .modal__code {
   font-family: monospace;
   font-size: 2rem;
@@ -53,7 +51,6 @@
   background: var(--color-card);
 }
 
-/* Mensaje de error */
 .modal__error {
   background: rgba(239, 68, 68, 0.1);
   border-left: 4px solid #ef4444;
@@ -104,7 +101,6 @@
   opacity: 0.4;
 }
 
-/* Input de código — estilo monoespaciado para los 6 caracteres */
 .modal__input--code {
   font-family: monospace;
   font-size: 1.25rem;

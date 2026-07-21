@@ -13,7 +13,7 @@ import "./Navbar.css";
 const Navbar = ({ onClassroomChange }) => {
     const { user, isAuthenticated, logout, isTeacher } = useAuth();
     const navigate = useNavigate();
-    const [themeColor, setThemeColor] = useState(false); // false = claro, true = oscuro
+    const [themeColor, setThemeColor] = useState(() => localStorage.getItem("theme") === "dark");
     const [menuOpen, setMenuOpen] = useState(false); // Menú del botón +
     const [userMenuOpen, setUserMenuOpen] = useState(false); // Menú del avatar
     const [showCreateModal, setShowCreateModal] = useState(false); // Modal crear aula
@@ -60,13 +60,11 @@ const Navbar = ({ onClassroomChange }) => {
     const handleThemeColor = () => {
         setThemeColor(!themeColor)
     }
-    // Aplica el atributo data-theme al HTML según el estado del toggle
+    // Aplica el atributo data-theme al HTML y guarda en localStorage
     useEffect(() => {
-        if (themeColor) {
-            document.documentElement.setAttribute("data-theme", "dark");
-        } else {
-            document.documentElement.setAttribute("data-theme", "light");
-        }
+        const theme = themeColor ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", theme);
+        localStorage.setItem("theme", theme);
     }, [themeColor]);
 
     // Callbacks que se ejecutan después de crear/unirse a un aula
