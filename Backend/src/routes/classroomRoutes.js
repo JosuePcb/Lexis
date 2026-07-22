@@ -1,6 +1,7 @@
 import { Router } from "express";
 import {
   getClassrooms,
+  getClassroomById,
   createClassroom,
   updateClassroom,
   joinClassroom,
@@ -15,10 +16,12 @@ const router = Router();
 router.get("/", authenticateToken, getClassrooms);
 // POST /api/classrooms — Crea un aula (solo teacher). Genera courseCode único automáticamente.
 router.post("/", authenticateToken, authorizeRoles("teacher"), createClassroom);
-// PUT /api/classrooms/:id — Edita un aula (solo teacher dueño del curso)
-router.put("/:id", authenticateToken, authorizeRoles("teacher"), updateClassroom);
 // POST /api/classrooms/join — Se une a un aula con courseCode (solo student)
 router.post("/join", authenticateToken, authorizeRoles("student"), joinClassroom);
+// GET /api/classrooms/:id — Obtiene la información detallada de un aula
+router.get("/:id", authenticateToken, getClassroomById);
+// PUT /api/classrooms/:id — Edita un aula (solo teacher dueño del curso)
+router.put("/:id", authenticateToken, authorizeRoles("teacher"), updateClassroom);
 // GET /api/classrooms/:id/students — Lista los estudiantes inscritos en un aula
 router.get("/:id/students", authenticateToken, getClassroomStudents);
 // DELETE /api/classrooms/:id/students/:studentId — Expulsa a un estudiante (solo teacher)

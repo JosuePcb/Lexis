@@ -1,6 +1,14 @@
 import express from "express";
 import cors from "cors";
+import path from "path";
+import fs from "fs";
 import "dotenv/config";
+
+// Asegurar existencia de carpeta uploads
+const uploadDir = path.join(process.cwd(), "uploads");
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 // Rutas
 import authRoutes from "./routes/authRoutes.js";
@@ -16,6 +24,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use("/uploads", express.static(uploadDir));
 
 // Endpoints
 app.use("/api/auth", authRoutes);
