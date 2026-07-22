@@ -7,24 +7,24 @@
 ### Gestion de Aulas Virtuales
 - [X] **Creacion de clases**. Se debe poder crear aulas virtuales asignando nombre, seccion y descripcion. 
 - [ ] Se debe poder **editar** la informacion sobre el aula virtual.
-- [X] El aula debe crear un **codigo unico** por clase, para que los estudiantes puedan unirse de forma manual.
+- [X] El aula debe crear un **codigo unico** por clase y permitir que tanto docentes como estudiantes puedan visualizarlo y copiarlo con 1 clic.
 - [X] Panel que muestre los alumnos inscritos, con opcion de expulsar usuarios.
 
 ### Publicacion y gestion de contenido 
 - [X] Permitir subir novedades al docente en un muro y que los estudiantes puedan comentar.
 
 ### Modulo de tareas y evaluacion
-- [ ] El docente debe poder crear tareas especificando:
-    - TItulo
+- [X] El docente debe poder crear tareas especificando:
+    - Título
     - Instrucciones
-    - Fecha/hora del limite de entrega
-    - Puntaje maximo
-    - Adjuntar archivos
-- [ ] El estudiante debe poder cargar archivos (Enlaces, Documentos o imagenes) para cumplir con la tarea y marcarla entregada.
+    - Fecha/hora del límite de entrega
+    - Puntaje máximo
+    - Adjuntar archivos y enlaces
+- [X] El estudiante debe poder cargar archivos (Enlaces, Documentos o imágenes) para cumplir con la tarea y marcarla entregada.
 
-- [ ] **Retroalimentacion:** 
+- [X] **Retroalimentación:** 
     - El docente debe poder visualizar los archivos entregados por cada alumno.
-    - El docente debe poder asignar calificacion numerica.
+    - El docente debe poder asignar calificación numérica.
 
 ### Libreta de calificaciones
 
