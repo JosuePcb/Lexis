@@ -1,0 +1,321 @@
+/* ClassroomDetail.css — Estilos para la página de detalle de aula.
+   Paleta y espaciado alineados con RoomCard y Home (variables de index.css).
+   ─────────────────────────────────────────────────────────────────────────── */
+
+/* ── Contenedor principal ─────────────────────────────────────────────────── */
+.classroom-detail {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 2.5rem;
+  font-family: var(--main-font);
+  color: var(--color-primary);
+}
+
+/* ── Cabecera ──────────────────────────────────────────────────────────────── */
+.classroom-header {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.classroom-back-btn {
+  background: none;
+  border: 2px solid var(--color-secondary);
+  border-radius: 6px;
+  color: var(--color-primary);
+  font-family: var(--main-font);
+  font-size: 0.9rem;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.classroom-back-btn:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-card);
+}
+
+.classroom-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ── Mensajes de estado (carga / error / vacío) ────────────────────────────── */
+.classroom-message {
+  text-align: center;
+  color: var(--color-primary);
+  opacity: 0.6;
+  font-size: 1.05rem;
+  padding: 3rem 2rem;
+  margin: 0;
+}
+
+.classroom-message--error {
+  color: #ef4444;
+  opacity: 1;
+}
+
+/* ── Barra de tabs ─────────────────────────────────────────────────────────── */
+.tabs {
+  display: flex;
+  gap: 0;
+  border-bottom: 2px solid var(--color-secondary);
+  margin-bottom: 1.75rem;
+}
+
+.tab-btn {
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px; /* solapa el borde inferior del contenedor */
+  padding: 0.6rem 1.5rem;
+  font-family: var(--main-font);
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--color-secondary);
+  cursor: pointer;
+  transition: color 0.2s ease, border-color 0.2s ease;
+}
+
+.tab-btn:hover {
+  color: var(--color-primary);
+}
+
+.tab-btn--active {
+  color: var(--color-accent);
+  border-bottom-color: var(--color-accent);
+  font-weight: 700;
+}
+
+/* ── Formulario de anuncio (solo teacher) ─────────────────────────────────── */
+.announcement-form {
+  background-color: var(--color-card);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+.announcement-form__textarea {
+  width: 100%;
+  resize: vertical;
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 6px;
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--main-font);
+  font-size: 0.95rem;
+  padding: 0.65rem 0.85rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.announcement-form__textarea:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.announcement-form__footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.75rem;
+}
+
+.announcement-form__btn {
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 1.25rem;
+  font-family: var(--main-font);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.announcement-form__btn:hover {
+  opacity: 0.88;
+}
+
+/* ── Tarjeta de anuncio ────────────────────────────────────────────────────── */
+.announcement-card {
+  background-color: var(--color-card);
+  border-radius: 8px;
+  padding: 1.25rem 1.5rem;
+  margin-bottom: 1.25rem;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+/* Fila superior del anuncio: autor + fecha */
+.announcement-header {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin-bottom: 0.65rem;
+}
+
+.announcement-author {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.announcement-date {
+  font-size: 0.8rem;
+  color: var(--color-secondary);
+}
+
+/* Cuerpo del anuncio */
+.announcement-content {
+  margin: 0 0 1rem;
+  line-height: 1.55;
+  font-size: 0.95rem;
+  white-space: pre-wrap; /* respeta saltos de línea del textarea */
+}
+
+/* ── Sección de comentarios ────────────────────────────────────────────────── */
+.comments-section {
+  border-top: 1.5px solid var(--color-secondary);
+  padding-top: 0.85rem;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.comment {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  padding: 0.25rem 0;
+}
+
+.comment__author {
+  white-space: nowrap;
+  color: var(--color-primary);
+}
+
+.comment__text {
+  color: var(--color-primary);
+  opacity: 0.85;
+}
+
+/* Formulario de nuevo comentario */
+.comment-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.comment-form__input {
+  flex: 1;
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 6px;
+  background-color: var(--color-bg);
+  color: var(--color-primary);
+  font-family: var(--main-font);
+  font-size: 0.88rem;
+  padding: 0.45rem 0.75rem;
+  transition: border-color 0.2s ease;
+}
+
+.comment-form__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.comment-form__btn {
+  background-color: var(--color-card);
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 6px;
+  color: var(--color-primary);
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.45rem 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.comment-form__btn:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+/* ── Panel de personas ─────────────────────────────────────────────────────── */
+.students-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.students-panel__title {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+  margin: 0 0 0.5rem;
+}
+
+/* Fila de alumno */
+.student-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  background-color: var(--color-card);
+  border-radius: 8px;
+  padding: 0.85rem 1.25rem;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.student-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+.student-email {
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+  margin: 0;
+}
+
+/* Botón expulsar — rojo suave */
+.kick-btn {
+  background: none;
+  border: 1.5px solid #f87171;
+  border-radius: 6px;
+  color: #ef4444;
+  font-family: var(--main-font);
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.kick-btn:hover {
+  background-color: #ef4444;
+  color: #fff;
+}

@@ -13,6 +13,7 @@ import Landing from './pages/Landing'
 import About from "./pages/About";
 import Privacy from "./pages/Privacy";
 import Terms from "./pages/Terms";
+import ClassroomDetail from './pages/ClassroomDetail'
 import './App.css'
 
 function App() {
@@ -38,6 +39,8 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/terms" element={<Terms />} />
 
+        {/* Detalle de un aula — navegación desde RoomCard */}
+        <Route path="/classroom/:id" element={<ClassroomDetail />} />
       </Routes>
     </>
   )

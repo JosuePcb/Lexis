@@ -8,10 +8,10 @@
 - [X] **Creacion de clases**. Se debe poder crear aulas virtuales asignando nombre, seccion y descripcion. 
 - [ ] Se debe poder **editar** la informacion sobre el aula virtual.
 - [X] El aula debe crear un **codigo unico** por clase, para que los estudiantes puedan unirse de forma manual.
-- [ ] Panel que muestre los alumnos inscritos, con opcion de expulsar usuarios.
+- [X] Panel que muestre los alumnos inscritos, con opcion de expulsar usuarios.
 
 ### Publicacion y gestion de contenido 
-- [ ] Permitir subir novedades al docente en un muro y que los estudiantes puedan comentar.
+- [X] Permitir subir novedades al docente en un muro y que los estudiantes puedan comentar.
 
 ### Modulo de tareas y evaluacion
 - [ ] El docente debe poder crear tareas especificando:

@@ -57,4 +57,67 @@ export const api = {
     if (!res.ok) throw new Error(data.error?.message || "Error en la solicitud");
     return data;
   },
+
+  // ── Aulas ────────────────────────────────────────────────────────────────
+
+  // Obtiene la lista de alumnos inscritos en un aula
+  getStudents: async (classroomId) => {
+    const res = await fetch(`${API_URL}/classrooms/${classroomId}/students`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || "Error al obtener alumnos");
+    return data;
+  },
+
+  // Expulsa a un alumno de un aula
+  kickStudent: async (classroomId, studentId) => {
+    const res = await fetch(`${API_URL}/classrooms/${classroomId}/students/${studentId}`, {
+      method: "DELETE",
+      headers: getHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || "Error al expulsar alumno");
+    return data;
+  },
+
+  // ── Muro / Anuncios ───────────────────────────────────────────────────────
+
+  // Publica un anuncio en el muro de un aula
+  createAnnouncement: async (courseId, content) => {
+    const res = await fetch(`${API_URL}/posts`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({ courseId, content }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || "Error al publicar anuncio");
+    return data;
+  },
+
+  // Obtiene el feed de anuncios de un aula (orden cronológico inverso desde el backend)
+  getWall: async (classroomId) => {
+    const res = await fetch(`${API_URL}/posts/classroom/${classroomId}`, {
+      method: "GET",
+      headers: getHeaders(),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || "Error al obtener el muro");
+    return data;
+  },
+
+  // ── Comentarios ───────────────────────────────────────────────────────────
+
+  // Agrega un comentario a un anuncio existente
+  addComment: async (announcementId, content) => {
+    const res = await fetch(`${API_URL}/posts/${announcementId}/comments`, {
+      method: "POST",
+      headers: getHeaders(),
+      body: JSON.stringify({ content }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error?.message || "Error al agregar comentario");
+    return data;
+  },
 };
