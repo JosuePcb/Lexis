@@ -118,21 +118,28 @@ export const joinClassroom = async (req, res) => {
       return res.status(404).json({ error: { message: "No se encontró un aula con ese código" } });
     }
 
-    // Verifica que el estudiante no tenga ya una inscripción activa en este curso
+    // Busca cualquier enrollment existente (sin filtrar por status) para manejar re-inscripción
     const existingEnrollment = await Enrollment.findOne({
-      where: { userId: studentId, courseId: course.id, status: "active" },
+      where: { userId: studentId, courseId: course.id },
     });
 
     if (existingEnrollment) {
-      return res.status(409).json({ error: { message: "Ya estás inscrito en este aula" } });
+      if (existingEnrollment.status === "active") {
+        // El estudiante ya está inscrito activamente
+        return res.status(409).json({ error: { message: "Ya estás inscrito en este aula" } });
+      } else {
+        // El estudiante fue expulsado anteriormente → reactivar su inscripción
+        existingEnrollment.status = "active";
+        await existingEnrollment.save();
+      }
+    } else {
+      // No existe enrollment previo → crear uno nuevo
+      await Enrollment.create({
+        userId: studentId,
+        courseId: course.id,
+        status: "active",
+      });
     }
-
-    // Crea la inscripción del estudiante en el curso
-    await Enrollment.create({
-      userId: studentId,
-      courseId: course.id,
-      status: "active",
-    });
 
     // Devuelve el curso completo con los datos del docente
     const fullCourse = await Course.findByPk(course.id, {
@@ -154,10 +161,102 @@ export const updateClassroom = async (req, res) => {
   res.status(501).json({ message: "Update classroom not implemented yet" });
 };
 
+// GET /api/classrooms/:id/students
+// Devuelve la lista de alumnos activos del aula (excluye al teacher).
+// Accesible por el teacher del curso o cualquier alumno con enrollment activo.
 export const getClassroomStudents = async (req, res) => {
-  res.status(501).json({ message: "Get classroom students not implemented yet" });
+  try {
+    const courseId = req.params.id;
+    const requestorId = req.user.id;
+
+    // Busca el curso para verificar que existe
+    const course = await Course.findByPk(courseId, {
+      include: [{ model: User, as: "teacher", attributes: ["id", "name", "email"] }],
+    });
+
+    if (!course) {
+      return res.status(404).json({ error: { message: "Aula no encontrada" } });
+    }
+
+    // Verifica que el requestor es teacher o tiene enrollment activo en el curso
+    const isTeacher = requestorId === course.teacherId;
+    if (!isTeacher) {
+      const memberEnrollment = await Enrollment.findOne({
+        where: { userId: requestorId, courseId, status: "active" },
+      });
+      if (!memberEnrollment) {
+        return res.status(403).json({ error: { message: "No tienes acceso a este aula" } });
+      }
+    }
+
+    // Busca todos los enrollments activos, excluyendo al teacher del curso
+    const enrollments = await Enrollment.findAll({
+      where: { courseId, status: "active" },
+      include: [
+        { model: User, attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    // Filtra al teacher y mapea a formato de respuesta con datos del alumno y del enrollment
+    const students = enrollments
+      .filter((e) => e.userId !== course.teacherId)
+      .map((e) => ({
+        id: e.User.id,
+        name: e.User.name,
+        email: e.User.email,
+        enrollmentDate: e.enrollmentDate,
+        enrollmentId: e.id,
+      }));
+
+    res.json(students);
+  } catch (error) {
+    console.error("Error fetching classroom students:", error);
+    res.status(500).json({ error: { message: "Error al obtener los alumnos del aula" } });
+  }
 };
 
+// DELETE /api/classrooms/:id/students/:studentId
+// Expulsa a un alumno del aula (soft delete: cambia status a 'removed').
+// Solo el teacher del curso puede ejecutar esta acción.
 export const kickStudent = async (req, res) => {
-  res.status(501).json({ message: "Kick student not implemented yet" });
+  try {
+    const courseId = req.params.id;
+    const studentId = parseInt(req.params.studentId, 10);
+    const requestorId = req.user.id;
+
+    // Busca el curso para validar existencia y permisos
+    const course = await Course.findByPk(courseId);
+
+    if (!course) {
+      return res.status(404).json({ error: { message: "Aula no encontrada" } });
+    }
+
+    // Solo el teacher del curso puede expulsar alumnos
+    if (requestorId !== course.teacherId) {
+      return res.status(403).json({ error: { message: "Solo el docente puede expulsar alumnos" } });
+    }
+
+    // Previene que el teacher se expulse a sí mismo
+    if (studentId === course.teacherId) {
+      return res.status(400).json({ error: { message: "No puedes expulsarte a ti mismo" } });
+    }
+
+    // Busca el enrollment activo del alumno en este curso
+    const enrollment = await Enrollment.findOne({
+      where: { userId: studentId, courseId, status: "active" },
+    });
+
+    if (!enrollment) {
+      return res.status(404).json({ error: { message: "El alumno no está inscrito en este aula" } });
+    }
+
+    // Soft delete: marca el enrollment como 'removed' en lugar de eliminarlo
+    enrollment.status = "removed";
+    await enrollment.save();
+
+    res.json({ message: "Alumno expulsado del aula exitosamente" });
+  } catch (error) {
+    console.error("Error kicking student:", error);
+    res.status(500).json({ error: { message: "Error al expulsar al alumno" } });
+  }
 };
