@@ -9,6 +9,10 @@ import { Navbar } from './components'
 import Home from './pages/Home'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Landing from './pages/Landing'
+import About from "./pages/About";
+import Privacy from "./pages/Privacy";
+import Terms from "./pages/Terms";
 import ClassroomDetail from './pages/ClassroomDetail'
 import './App.css'
 
@@ -30,6 +34,11 @@ function App() {
         <Route path="/home" element={<Home key={classroomRefreshKey} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/landing" element={<Landing />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+
         {/* Detalle de un aula — navegación desde RoomCard */}
         <Route path="/classroom/:id" element={<ClassroomDetail />} />
       </Routes>
