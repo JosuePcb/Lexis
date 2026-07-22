@@ -11,6 +11,19 @@ const getHeaders = () => {
   return headers;
 };
 
+// Manejo centralizado de respuestas HTTP para extraer mensajes de error legibles
+const handleResponse = async (res) => {
+  const data = await res.json();
+  if (!res.ok) {
+    const errorMsg =
+      data.error?.message ||
+      (typeof data.error === "string" ? data.error : null) ||
+      "Error en la solicitud";
+    throw new Error(errorMsg);
+  }
+  return data;
+};
+
 export const api = {
   // Realiza un GET a la API. Devuelve el body parseado o lanza Error si falla.
   get: async (path) => {
@@ -18,9 +31,7 @@ export const api = {
       method: "GET",
       headers: getHeaders(),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error en la solicitud");
-    return data;
+    return handleResponse(res);
   },
 
   // Realiza un POST con body JSON a la API.
@@ -30,9 +41,7 @@ export const api = {
       headers: getHeaders(),
       body: JSON.stringify(body),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error en la solicitud");
-    return data;
+    return handleResponse(res);
   },
 
   // Realiza un PUT con body JSON a la API.
@@ -42,9 +51,7 @@ export const api = {
       headers: getHeaders(),
       body: JSON.stringify(body),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error en la solicitud");
-    return data;
+    return handleResponse(res);
   },
 
   // Realiza un DELETE a la API.
@@ -53,71 +60,106 @@ export const api = {
       method: "DELETE",
       headers: getHeaders(),
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error en la solicitud");
-    return data;
+    return handleResponse(res);
   },
 
   // ── Aulas ────────────────────────────────────────────────────────────────
 
+  // Obtiene el detalle de un aula por su ID
+  getClassroomDetail: async (classroomId) => {
+    return api.get(`/classrooms/${classroomId}`);
+  },
+
   // Obtiene la lista de alumnos inscritos en un aula
   getStudents: async (classroomId) => {
-    const res = await fetch(`${API_URL}/classrooms/${classroomId}/students`, {
-      method: "GET",
-      headers: getHeaders(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error al obtener alumnos");
-    return data;
+    return api.get(`/classrooms/${classroomId}/students`);
   },
 
   // Expulsa a un alumno de un aula
   kickStudent: async (classroomId, studentId) => {
-    const res = await fetch(`${API_URL}/classrooms/${classroomId}/students/${studentId}`, {
-      method: "DELETE",
-      headers: getHeaders(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error al expulsar alumno");
-    return data;
+    return api.delete(`/classrooms/${classroomId}/students/${studentId}`);
   },
 
   // ── Muro / Anuncios ───────────────────────────────────────────────────────
 
   // Publica un anuncio en el muro de un aula
   createAnnouncement: async (courseId, content) => {
-    const res = await fetch(`${API_URL}/posts`, {
-      method: "POST",
-      headers: getHeaders(),
-      body: JSON.stringify({ courseId, content }),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error al publicar anuncio");
-    return data;
+    return api.post("/posts", { courseId, content });
   },
 
   // Obtiene el feed de anuncios de un aula (orden cronológico inverso desde el backend)
   getWall: async (classroomId) => {
-    const res = await fetch(`${API_URL}/posts/classroom/${classroomId}`, {
-      method: "GET",
-      headers: getHeaders(),
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error al obtener el muro");
-    return data;
+    return api.get(`/posts/classroom/${classroomId}`);
   },
 
   // ── Comentarios ───────────────────────────────────────────────────────────
 
   // Agrega un comentario a un anuncio existente
   addComment: async (announcementId, content) => {
-    const res = await fetch(`${API_URL}/posts/${announcementId}/comments`, {
+    return api.post(`/posts/${announcementId}/comments`, { content });
+  },
+
+  // ── Tareas y Calificaciones ───────────────────────────────────────────────
+
+  // Obtiene todas las tareas de un aula (incluye mi entrega/estado si soy alumno)
+  getTasksByCourse: async (courseId) => {
+    return api.get(`/tasks/course/${courseId}`);
+  },
+
+  // Obtiene el detalle de una tarea específica
+  getTaskById: async (taskId) => {
+    return api.get(`/tasks/${taskId}`);
+  },
+
+  // Crea una tarea (soporta FormData con archivos adjuntos y links)
+  createTask: async (formData) => {
+    const token = localStorage.getItem("token");
+    const headers = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${API_URL}/tasks`, {
       method: "POST",
-      headers: getHeaders(),
-      body: JSON.stringify({ content }),
+      headers,
+      body: formData,
     });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error?.message || "Error al agregar comentario");
-    return data;
+    return handleResponse(res);
+  },
+
+  // Actualiza los datos de una tarea (título, instrucciones, dueDate, maxScore)
+  updateTask: async (taskId, taskData) => {
+    return api.put(`/tasks/${taskId}`, taskData);
+  },
+
+  // Elimina una tarea
+  deleteTask: async (taskId) => {
+    return api.delete(`/tasks/${taskId}`);
+  },
+
+  // Entrega una tarea (soporta FormData con archivos y links)
+  submitTask: async (taskId, formData) => {
+    const token = localStorage.getItem("token");
+    const headers = {};
+    if (token) headers["Authorization"] = `Bearer ${token}`;
+    const res = await fetch(`${API_URL}/tasks/${taskId}/submit`, {
+      method: "POST",
+      headers,
+      body: formData,
+    });
+    return handleResponse(res);
+  },
+
+  // Anula la entrega de una tarea (solo si no está calificada)
+  unsubmitTask: async (taskId) => {
+    return api.post(`/tasks/${taskId}/unsubmit`, {});
+  },
+
+  // Obtiene la lista de entregas de los estudiantes para una tarea (docente)
+  getSubmissions: async (taskId) => {
+    return api.get(`/tasks/${taskId}/submissions`);
+  },
+
+  // Califica o edita la nota/comentario de la entrega de un estudiante (docente)
+  gradeSubmission: async (submissionId, { score, comment }) => {
+    return api.post(`/tasks/submissions/${submissionId}/grade`, { score, comment });
   },
 };
+
