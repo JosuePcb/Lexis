@@ -29,7 +29,7 @@ function App() {
     <>
       <Navbar onClassroomChange={handleClassroomChange} />
       <Routes>
-        <Route path="/" element={<Navigate to="/home" replace />} />
+        <Route path="/" element={<Navigate to="/landing" replace />} />
         {/* key={classroomRefreshKey} fuerza a React a destruir y recrear Home cuando cambia */}
         <Route path="/home" element={<Home key={classroomRefreshKey} />} />
         <Route path="/login" element={<Login />} />

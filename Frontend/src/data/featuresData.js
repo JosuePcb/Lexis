@@ -41,12 +41,6 @@ export const FEATURES = [
         description:
             "Visualiza el progreso individual de cada estudiante y detecta quién necesita apoyo.",
     },
-    {
-        icon: FiBarChart2,
-        title: "Reportes en tiempo real",
-        description:
-            "Accede a métricas actualizadas para tomar decisiones basadas en datos reales.",
-    },
 ];
 
 // ---------------------------------------------------------------------------

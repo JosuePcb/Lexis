@@ -44,8 +44,8 @@ function Hero({ title, subtitle, ctaText, onCtaClick }) {
             {/* Primary CTA — accent color is same in both themes */}
             <button
                 onClick={onCtaClick}
-                className="px-8 py-3 text-white text-sm font-semibold rounded-lg
-                   active:scale-95 transition-all duration-200"
+                className="px-8 py-3 text-white text-sm font-semibold rounded-lg cursor-pointer
+                active:scale-95 transition-all duration-200"
                 style={{ backgroundColor: "var(--color-accent)" }}
                 onMouseEnter={e => e.currentTarget.style.opacity = "0.88"}
                 onMouseLeave={e => e.currentTarget.style.opacity = "1"}

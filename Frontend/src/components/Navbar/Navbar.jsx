@@ -80,7 +80,7 @@ const Navbar = ({ onClassroomChange }) => {
     return (
         <>
             <nav className="navbar">
-                <Link to="/home" className="navbar__brand">
+                <Link to={isAuthenticated ? "/home" : "/"} className="navbar__brand">
                     Lexis
                 </Link>
 
@@ -136,8 +136,8 @@ const Navbar = ({ onClassroomChange }) => {
 
                             <div className={`navbar__dropdown ${userMenuOpen ? "navbar__dropdown--open" : ""}`} style={{ right: 0 }}>
                                 <div className="px-4 py-2 border-b border-gray-100">
-                                    <p className="text-sm font-semibold text-gray-900 truncate">{user.name}</p>
-                                    <p className="text-xs text-gray-500 truncate">{user.email}</p>
+                                    <p className="text-sm font-semibold text-[var(--color-primary)] truncate">{user.name}</p>
+                                    <p className="text-xs text-[var(--color-secondary)] truncate">{user.email}</p>
                                 </div>
                                 <button
                                     className="navbar__dropdown-item w-full text-left"
