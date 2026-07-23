@@ -142,6 +142,54 @@ export const login = async (req, res) => {
   }
 };
 
+// PUT /api/auth/profile
+// Permite al usuario actualizar su nombre
+export const updateProfile = async (req, res) => {
+  try {
+    const { name } = req.body;
+
+    if (!name || name.trim() === "") {
+      return res.status(400).json({
+        error: {
+          code: "VALIDATION_ERROR",
+          message: "El nombre es obligatorio.",
+        },
+      });
+    }
+
+    const user = await User.findByPk(req.user.id);
+    if (!user) {
+      return res.status(404).json({
+        error: {
+          code: "USER_NOT_FOUND",
+          message: "El usuario no existe.",
+        },
+      });
+    }
+
+    user.name = name.trim();
+    await user.save();
+
+    return res.status(200).json({
+      message: "Perfil actualizado con éxito.",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        role: user.role,
+      },
+    });
+  } catch (error) {
+    console.error("Error al actualizar perfil:", error);
+    return res.status(500).json({
+      error: {
+        code: "INTERNAL_SERVER_ERROR",
+        message: "Ocurrió un error inesperado en el servidor.",
+      },
+    });
+  }
+};
+
 export const getProfile = async (req, res) => {
   try {
     // req.user viene del middleware authenticateToken cargado con { id, email, role }

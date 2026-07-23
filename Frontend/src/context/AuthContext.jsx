@@ -59,6 +59,11 @@ export const AuthProvider = ({ children }) => {
     localStorage.removeItem("user");
   };
 
+  const updateUser = (userData) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  };
+
   // Helpers para verificar el rol del usuario en componentes
   // Se usan como: if (isTeacher()) { ... }
   const isTeacher = () => user?.role === "teacher";
@@ -72,6 +77,7 @@ export const AuthProvider = ({ children }) => {
     loading,         // true mientras se restaura la sesión (evita parpadeos)
     login,           // Función para iniciar sesión
     logout,          // Función para cerrar sesión
+    updateUser,      // Función para actualizar datos del usuario en sesión
     isTeacher,       // Helper: retorna true si el rol es "teacher"
     isStudent,       // Helper: retorna true si el rol es "student"
     isAuthenticated: !!token, // !! convierte a boolean: true si hay token, false si no

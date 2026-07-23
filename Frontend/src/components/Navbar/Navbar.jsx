@@ -7,19 +7,25 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoSunnyOutline, IoMoonOutline } from "react-icons/io5";
 import { useAuth } from "../../context/AuthContext";
+import { api } from "../../api";
 import { CreateClassroomModal, JoinClassroomModal } from "../index";
 import "./Navbar.css";
 
 const Navbar = ({ onClassroomChange }) => {
-    const { user, isAuthenticated, logout, isTeacher } = useAuth();
+    const { user, isAuthenticated, logout, isTeacher, updateUser } = useAuth();
     const navigate = useNavigate();
     const [themeColor, setThemeColor] = useState(() => localStorage.getItem("theme") === "dark");
-    const [menuOpen, setMenuOpen] = useState(false); // Menú del botón +
-    const [userMenuOpen, setUserMenuOpen] = useState(false); // Menú del avatar
-    const [showCreateModal, setShowCreateModal] = useState(false); // Modal crear aula
-    const [showJoinModal, setShowJoinModal] = useState(false); // Modal unirse a aula
+    const [menuOpen, setMenuOpen] = useState(false);
+    const [userMenuOpen, setUserMenuOpen] = useState(false);
+    const [showCreateModal, setShowCreateModal] = useState(false);
+    const [showJoinModal, setShowJoinModal] = useState(false);
+    const [isEditingName, setIsEditingName] = useState(false);
+    const [editNameValue, setEditNameValue] = useState("");
+    const [editNameError, setEditNameError] = useState("");
+    const [editNameLoading, setEditNameLoading] = useState(false);
     const menuRef = useRef(null);
     const userMenuRef = useRef(null);
+    const editNameInputRef = useRef(null);
 
     // Cierra los menús dropdown al hacer click fuera de ellos
     useEffect(() => {
@@ -75,6 +81,43 @@ const Navbar = ({ onClassroomChange }) => {
 
     const handleClassroomJoined = () => {
         onClassroomChange?.();
+    };
+
+    const handleStartEditName = () => {
+        setEditNameValue(user?.name || "");
+        setEditNameError("");
+        setIsEditingName(true);
+        setUserMenuOpen(false);
+    };
+
+    const handleCancelEditName = () => {
+        setIsEditingName(false);
+        setEditNameValue("");
+        setEditNameError("");
+    };
+
+    const handleSaveName = async () => {
+        const trimmed = editNameValue.trim();
+        if (!trimmed) {
+            setEditNameError("El nombre no puede estar vacío.");
+            return;
+        }
+        if (trimmed === user?.name) {
+            setIsEditingName(false);
+            return;
+        }
+
+        setEditNameLoading(true);
+        setEditNameError("");
+        try {
+            const res = await api.updateProfile(trimmed);
+            updateUser(res.user);
+            setIsEditingName(false);
+        } catch (err) {
+            setEditNameError(err.message || "Error al actualizar el nombre.");
+        } finally {
+            setEditNameLoading(false);
+        }
     };
     
     return (
@@ -141,6 +184,11 @@ const Navbar = ({ onClassroomChange }) => {
                                 </div>
                                 <button
                                     className="navbar__dropdown-item w-full text-left"
+                                    onClick={() => handleMenuOption(handleStartEditName)}>
+                                    Editar nombre
+                                </button>
+                                <button
+                                    className="navbar__dropdown-item w-full text-left"
                                     onClick={() => handleMenuOption(handleLogout)}>
                                     Cerrar Sesión
                                 </button>
@@ -167,6 +215,48 @@ const Navbar = ({ onClassroomChange }) => {
                     onClose={() => setShowJoinModal(false)}
                     onJoined={handleClassroomJoined}
                 />
+            )}
+
+            {isEditingName && (
+                <div className="edit-name-overlay" onClick={handleCancelEditName}>
+                    <div className="edit-name-modal" onClick={(e) => e.stopPropagation()}>
+                        <h3 className="edit-name-modal__title">Editar nombre</h3>
+                        <input
+                            ref={editNameInputRef}
+                            className="edit-name-modal__input"
+                            type="text"
+                            value={editNameValue}
+                            onChange={(e) => {
+                                setEditNameValue(e.target.value);
+                                setEditNameError("");
+                            }}
+                            onKeyDown={(e) => {
+                                if (e.key === "Enter") handleSaveName();
+                                if (e.key === "Escape") handleCancelEditName();
+                            }}
+                            placeholder="Tu nombre"
+                            autoFocus
+                            disabled={editNameLoading}
+                        />
+                        {editNameError && (
+                            <p className="edit-name-modal__error">{editNameError}</p>
+                        )}
+                        <div className="edit-name-modal__actions">
+                            <button
+                                className="edit-name-modal__btn edit-name-modal__btn--cancel"
+                                onClick={handleCancelEditName}
+                                disabled={editNameLoading}>
+                                Cancelar
+                            </button>
+                            <button
+                                className="edit-name-modal__btn edit-name-modal__btn--save"
+                                onClick={handleSaveName}
+                                disabled={editNameLoading}>
+                                {editNameLoading ? "Guardando..." : "Guardar"}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             )}
         </>
     );

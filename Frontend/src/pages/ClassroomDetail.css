@@ -546,3 +546,295 @@
   background-color: #ef4444;
   color: #fff;
 }
+
+/* ── Panel de Calificaciones ──────────────────────────────────────────────── */
+.gradebook-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gradebook-table-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.gradebook-panel__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+  margin: 0;
+}
+
+.gradebook-refresh-btn {
+  background: none;
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 6px;
+  color: var(--color-primary);
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.35rem 0.75rem;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.gradebook-refresh-btn:hover {
+  border-color: var(--color-accent);
+  background-color: var(--color-bg);
+}
+
+/* ── Tabla del docente ─────────────────────────────────────────────────────── */
+.gradebook-table-scroll {
+  overflow-x: auto;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+.gradebook-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-card);
+  min-width: 0;
+}
+
+.gradebook-th {
+  padding: 0.7rem 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-primary);
+  background-color: var(--color-card);
+  border-bottom: 2px solid var(--color-secondary);
+  white-space: nowrap;
+}
+
+.gradebook-th--student {
+  text-align: left;
+  min-width: 180px;
+  position: sticky;
+  left: 0;
+  z-index: 2;
+  background-color: var(--color-card);
+}
+
+.gradebook-th--avg {
+  text-align: center;
+  min-width: 80px;
+}
+
+.gradebook-th__title {
+  display: block;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gradebook-th__max {
+  display: block;
+  font-size: 0.7rem;
+  color: var(--color-secondary);
+  font-weight: 400;
+}
+
+.gradebook-td {
+  padding: 0.65rem 1rem;
+  text-align: center;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-secondary);
+}
+
+.gradebook-td--student {
+  text-align: left;
+  position: sticky;
+  left: 0;
+  z-index: 1;
+  background-color: var(--color-card);
+}
+
+.gradebook-td--avg {
+  text-align: center;
+}
+
+.gradebook-student-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-primary);
+}
+
+.gradebook-student-email {
+  font-size: 0.75rem;
+  color: var(--color-secondary);
+}
+
+.gradebook-grade {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 36px;
+}
+
+.gradebook-grade--graded {
+  color: #16a34a;
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+.gradebook-grade--submitted {
+  color: #d97706;
+  background-color: rgba(217, 119, 6, 0.1);
+}
+
+.gradebook-grade--pending {
+  color: var(--color-secondary);
+  background-color: rgba(168, 159, 145, 0.15);
+}
+
+.gradebook-avg {
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--color-accent);
+}
+
+/* ── Estadísticas del estudiante ────────────────────────────────────────────── */
+.gradebook-stats {
+  display: flex;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+}
+
+.gradebook-stat-card {
+  background-color: var(--color-card);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  flex: 1;
+  min-width: 100px;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+.gradebook-stat-card--highlight {
+  background-color: var(--color-accent);
+}
+
+.gradebook-stat-card--highlight .gradebook-stat-card__value,
+.gradebook-stat-card--highlight .gradebook-stat-card__label {
+  color: #fff;
+}
+
+.gradebook-stat-card__value {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.gradebook-stat-card__label {
+  font-size: 0.78rem;
+  color: var(--color-secondary);
+}
+
+/* ── Historial del estudiante ─────────────────────────────────────────────── */
+.gradebook-history {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.gradebook-history-card {
+  background-color: var(--color-card);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  box-shadow:
+    0 0 0 2px #1a1a1a,
+    0 0 0 4px rgba(220, 220, 210, 0.75),
+    2px 2px 0 4px #1a1a1a;
+}
+
+.gradebook-history-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.gradebook-history-card__title {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.gradebook-history-card__badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 0.25rem 0.65rem;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.gradebook-history-card__badge--graded {
+  color: #16a34a;
+  background-color: rgba(34, 197, 94, 0.1);
+}
+
+.gradebook-history-card__badge--submitted {
+  color: #d97706;
+  background-color: rgba(217, 119, 6, 0.1);
+}
+
+.gradebook-history-card__badge--late {
+  color: #dc2626;
+  background-color: rgba(220, 38, 38, 0.1);
+}
+
+.gradebook-history-card__badge--pending {
+  color: var(--color-secondary);
+  background-color: rgba(168, 159, 145, 0.15);
+}
+
+.gradebook-history-card__details {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.gradebook-history-card__detail {
+  font-size: 0.82rem;
+  color: var(--color-secondary);
+}
+
+.gradebook-history-card__comment {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--color-secondary);
+}
+
+.gradebook-history-card__comment-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-secondary);
+}
+
+.gradebook-history-card__comment-text {
+  font-size: 0.88rem;
+  color: var(--color-primary);
+  line-height: 1.4;
+}

@@ -209,3 +209,97 @@
 .navbar__login-btn:hover {
   opacity: 0.9;
 }
+
+/* ── Edit Name Modal ────────── */
+.edit-name-overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.edit-name-modal {
+  background-color: var(--color-bg);
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 90%;
+  max-width: 380px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.edit-name-modal__title {
+  margin: 0 0 1rem;
+  font-family: var(--main-font), sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+
+.edit-name-modal__input {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1.5px solid var(--color-secondary);
+  border-radius: 8px;
+  background-color: var(--color-card);
+  color: var(--color-primary);
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+  transition: border-color 0.2s ease;
+}
+
+.edit-name-modal__input:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.edit-name-modal__error {
+  margin: 0.5rem 0 0;
+  font-size: 0.82rem;
+  color: #ef4444;
+}
+
+.edit-name-modal__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.edit-name-modal__btn {
+  font-family: var(--main-font), sans-serif;
+  font-size: 0.875rem;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, background-color 0.2s ease;
+  border: none;
+}
+
+.edit-name-modal__btn--cancel {
+  background: none;
+  border: 1.5px solid var(--color-secondary);
+  color: var(--color-primary);
+}
+
+.edit-name-modal__btn--cancel:hover {
+  border-color: var(--color-accent);
+}
+
+.edit-name-modal__btn--save {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+
+.edit-name-modal__btn--save:hover {
+  opacity: 0.9;
+}
+
+.edit-name-modal__btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}

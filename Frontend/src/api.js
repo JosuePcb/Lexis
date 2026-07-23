@@ -161,5 +161,24 @@ export const api = {
   gradeSubmission: async (submissionId, { score, comment }) => {
     return api.post(`/tasks/submissions/${submissionId}/grade`, { score, comment });
   },
+
+  // ── Libreta de Calificaciones ────────────────────────────────────────────
+
+  // Obtiene la libreta de calificaciones del docente (tabla alumnos x tareas)
+  getTeacherGradebook: async (classroomId) => {
+    return api.get(`/grades/classroom/${classroomId}/teacher`);
+  },
+
+  // Obtiene la libreta de calificaciones del estudiante (historial personal)
+  getStudentGradebook: async (classroomId) => {
+    return api.get(`/grades/classroom/${classroomId}/student`);
+  },
+
+  // ── Perfil de Usuario ────────────────────────────────────────────────────
+
+  // Actualiza el nombre del usuario
+  updateProfile: async (name) => {
+    return api.put("/auth/profile", { name });
+  },
 };
 

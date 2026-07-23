@@ -52,6 +52,7 @@ const ClassroomDetail = () => {
   const [announcements, setAnnouncements] = useState([]);
   const [students, setStudents] = useState([]);
   const [tasks, setTasks] = useState([]);
+  const [gradebook, setGradebook] = useState(null);
 
   // Estado de UI
   const [loading, setLoading] = useState(true);
@@ -104,6 +105,20 @@ const ClassroomDetail = () => {
       setTasks(taskList);
     } catch (err) {
       console.error('Error refreshing tasks:', err);
+    }
+  };
+
+  const refreshGradebook = async () => {
+    try {
+      if (user?.role === 'teacher') {
+        const data = await api.getTeacherGradebook(id);
+        setGradebook(data);
+      } else {
+        const data = await api.getStudentGradebook(id);
+        setGradebook(data);
+      }
+    } catch (err) {
+      console.error('Error refreshing gradebook:', err);
     }
   };
 
@@ -243,6 +258,15 @@ const ClassroomDetail = () => {
               onClick={() => setActiveTab('personas')}
             >
               Personas
+            </button>
+            <button
+              className={`tab-btn${activeTab === 'calificaciones' ? ' tab-btn--active' : ''}`}
+              onClick={() => {
+                setActiveTab('calificaciones');
+                if (!gradebook) refreshGradebook();
+              }}
+            >
+              Calificaciones
             </button>
           </nav>
 
@@ -457,6 +481,146 @@ const ClassroomDetail = () => {
                   )}
                 </div>
               ))}
+            </div>
+          )}
+
+          {/* ── TAB: CALIFICACIONES ── */}
+          {activeTab === 'calificaciones' && (
+            <div className="gradebook-panel">
+              {!gradebook ? (
+                <p className="classroom-message">Cargando calificaciones...</p>
+              ) : user?.role === 'teacher' ? (
+                /* ── Vista del Docente: Tabla centralizada ── */
+                gradebook.rows.length === 0 ? (
+                  <p className="classroom-message">No hay alumnos inscritos en este aula.</p>
+                ) : (
+                  <div className="gradebook-table-wrapper">
+                    <div className="gradebook-table-header">
+                      <h3 className="gradebook-panel__title">Libreta de Calificaciones</h3>
+                      <button className="gradebook-refresh-btn" onClick={refreshGradebook}>
+                        Actualizar
+                      </button>
+                    </div>
+                    <div className="gradebook-table-scroll">
+                      <table className="gradebook-table">
+                        <thead>
+                          <tr>
+                            <th className="gradebook-th gradebook-th--student">Alumno</th>
+                            {gradebook.assignments.map((assignment) => (
+                              <th key={assignment.id} className="gradebook-th">
+                                <span className="gradebook-th__title">{assignment.title}</span>
+                                <span className="gradebook-th__max">/{assignment.maxScore}</span>
+                              </th>
+                            ))}
+                            <th className="gradebook-th gradebook-th--avg">Promedio</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {gradebook.rows.map((row) => {
+                            const totalScore = row.grades.reduce((sum, g) => sum + (g.score ?? 0), 0);
+                            const totalMax = row.grades.reduce((sum, g) => sum + g.maxScore, 0);
+                            const avgPercent = totalMax > 0 ? Math.round((totalScore / totalMax) * 100) : 0;
+                            return (
+                              <tr key={row.student.id}>
+                                <td className="gradebook-td gradebook-td--student">
+                                  <div className="gradebook-student-name">{row.student.name}</div>
+                                  <div className="gradebook-student-email">{row.student.email}</div>
+                                </td>
+                                {row.grades.map((grade) => (
+                                  <td key={grade.assignmentId} className="gradebook-td">
+                                    <span className={`gradebook-grade ${grade.status === 'graded' ? 'gradebook-grade--graded' : grade.status === 'submitted' || grade.status === 'late' ? 'gradebook-grade--submitted' : 'gradebook-grade--pending'}`}>
+                                      {grade.status === 'graded' && grade.score !== null
+                                        ? grade.score
+                                        : grade.status === 'submitted' || grade.status === 'late'
+                                          ? '—'
+                                          : '0'}
+                                    </span>
+                                  </td>
+                                ))}
+                                <td className="gradebook-td gradebook-td--avg">
+                                  <span className="gradebook-avg">{avgPercent}%</span>
+                                </td>
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                )
+              ) : (
+                /* ── Vista del Estudiante: Panel individual ── */
+                <>
+                  {gradebook.stats && (
+                    <div className="gradebook-stats">
+                      <div className="gradebook-stat-card">
+                        <span className="gradebook-stat-card__value">{gradebook.stats.totalAssignments}</span>
+                        <span className="gradebook-stat-card__label">Total tareas</span>
+                      </div>
+                      <div className="gradebook-stat-card">
+                        <span className="gradebook-stat-card__value">{gradebook.stats.gradedCount}</span>
+                        <span className="gradebook-stat-card__label">Calificadas</span>
+                      </div>
+                      <div className="gradebook-stat-card">
+                        <span className="gradebook-stat-card__value">{gradebook.stats.submittedCount}</span>
+                        <span className="gradebook-stat-card__label">Entregadas</span>
+                      </div>
+                      <div className="gradebook-stat-card">
+                        <span className="gradebook-stat-card__value">{gradebook.stats.pendingCount}</span>
+                        <span className="gradebook-stat-card__label">Pendientes</span>
+                      </div>
+                      {gradebook.stats.averagePercentage !== null && (
+                        <div className="gradebook-stat-card gradebook-stat-card--highlight">
+                          <span className="gradebook-stat-card__value">{gradebook.stats.averagePercentage}%</span>
+                          <span className="gradebook-stat-card__label">Promedio</span>
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {gradebook.history.length === 0 ? (
+                    <p className="classroom-message">Aún no hay tareas en este aula.</p>
+                  ) : (
+                    <div className="gradebook-history">
+                      <div className="gradebook-table-header">
+                        <h3 className="gradebook-panel__title">Mi Historial de Calificaciones</h3>
+                        <button className="gradebook-refresh-btn" onClick={refreshGradebook}>
+                          Actualizar
+                        </button>
+                      </div>
+                      {gradebook.history.map((item) => (
+                        <div key={item.assignmentId} className="gradebook-history-card">
+                          <div className="gradebook-history-card__header">
+                            <h4 className="gradebook-history-card__title">{item.title}</h4>
+                            <span className={`gradebook-history-card__badge gradebook-history-card__badge--${item.status}`}>
+                              {item.status === 'graded' && `Calificado: ${item.score}/${item.maxScore}`}
+                              {item.status === 'submitted' && 'Entregado'}
+                              {item.status === 'late' && 'Entregado con retraso'}
+                              {item.status === 'pending' && 'Pendiente'}
+                            </span>
+                          </div>
+                          <div className="gradebook-history-card__details">
+                            <span className="gradebook-history-card__detail">
+                              Vence: {formatDueDate(item.dueDate)}
+                            </span>
+                            {item.submissionDate && (
+                              <span className="gradebook-history-card__detail">
+                                Entregado: {new Date(item.submissionDate).toLocaleString('es', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}
+                              </span>
+                            )}
+                          </div>
+                          {item.teacherComment && (
+                            <div className="gradebook-history-card__comment">
+                              <span className="gradebook-history-card__comment-label">Comentario del docente:</span>
+                              <span className="gradebook-history-card__comment-text">{item.teacherComment}</span>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           )}
         </>
