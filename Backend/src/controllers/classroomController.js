@@ -192,7 +192,46 @@ export const getClassroomById = async (req, res) => {
 };
 
 export const updateClassroom = async (req, res) => {
-  res.status(501).json({ message: "Update classroom not implemented yet" });
+  try {
+    const { id: courseId } = req.params;
+    const teacherId = req.user.id;
+    const { name, section, description } = req.body;
+
+    const course = await Course.findByPk(courseId);
+    if (!course) {
+      return res.status(404).json({ error: { message: "Aula no encontrada" } });
+    }
+
+    if (course.teacherId !== teacherId) {
+      return res.status(403).json({ error: { message: "Solo el docente puede editar el aula" } });
+    }
+
+    if (name !== undefined) {
+      if (!name || name.trim() === "") {
+        return res.status(400).json({ error: { message: "El nombre del aula no puede estar vacío" } });
+      }
+      course.name = name.trim();
+    }
+    if (section !== undefined) {
+      course.section = section.trim() || null;
+    }
+    if (description !== undefined) {
+      course.description = description.trim() || null;
+    }
+
+    await course.save();
+
+    const updatedCourse = await Course.findByPk(courseId, {
+      include: [
+        { model: User, as: "teacher", attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    res.json(updatedCourse);
+  } catch (error) {
+    console.error("Error updating classroom:", error);
+    res.status(500).json({ error: { message: "Error al actualizar el aula" } });
+  }
 };
 
 // GET /api/classrooms/:id/students

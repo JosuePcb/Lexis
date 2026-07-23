@@ -6,7 +6,7 @@
 
 ### Gestion de Aulas Virtuales
 - [X] **Creacion de clases**. Se debe poder crear aulas virtuales asignando nombre, seccion y descripcion. 
-- [ ] Se debe poder **editar** la informacion sobre el aula virtual.
+- [X] Se debe poder **editar** la informacion sobre el aula virtual.
 - [X] El aula debe crear un **codigo unico** por clase y permitir que tanto docentes como estudiantes puedan visualizarlo y copiarlo con 1 clic.
 - [X] Panel que muestre los alumnos inscritos, con opcion de expulsar usuarios.
 
@@ -28,12 +28,12 @@
 
 ### Libreta de calificaciones
 
-- [x] Vista del Docente: Una tabla centralizada donde se muestran todos los alumnos de la clase en las filas y todas las tareas con sus respectivas calificaciones.
+- [X] Vista del Docente: Una tabla centralizada donde se muestran todos los alumnos de la clase en las filas y todas las tareas con sus respectivas calificaciones.
 
-- [x] Vista del Estudiante: Un panel individual donde el alumno ve únicamente su historial de tareas entregadas, pendientes, calificadas.
+- [X] Vista del Estudiante: Un panel individual donde el alumno ve únicamente su historial de tareas entregadas, pendientes, calificadas.
 
 # Requisitos No Funcionales
-- [x] Autorización Estricta. El backend debe validar que el token de sesión (JWT) tenga los permisos adecuados antes de permitir cualquier operación.
+- [X] Autorización Estricta. El backend debe validar que el token de sesión (JWT) tenga los permisos adecuados antes de permitir cualquier operación.
 - [X] Diseño Responsivo. La interfaz de usuario debe ser 100% responsiva, adaptándose perfectamente a dispositivos móviles.
 
 # Generación de Código de Aula

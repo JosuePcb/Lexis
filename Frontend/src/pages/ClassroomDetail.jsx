@@ -65,6 +65,12 @@ const ClassroomDetail = () => {
   const [selectedStudentTask, setSelectedStudentTask] = useState(null);
   const [selectedGradingTask, setSelectedGradingTask] = useState(null);
 
+  // Estado para modal de editar aula
+  const [isEditClassroomOpen, setIsEditClassroomOpen] = useState(false);
+  const [editForm, setEditForm] = useState({ name: '', section: '', description: '' });
+  const [editError, setEditError] = useState('');
+  const [editLoading, setEditLoading] = useState(false);
+
   // Ref para el textarea del formulario de anuncio
   const announceTextRef = useRef(null);
 
@@ -195,6 +201,46 @@ const ClassroomDetail = () => {
     }
   };
 
+  // Abrir modal de editar aula
+  const handleOpenEditClassroom = () => {
+    setEditForm({
+      name: classroom?.name || '',
+      section: classroom?.section || '',
+      description: classroom?.description || '',
+    });
+    setEditError('');
+    setIsEditClassroomOpen(true);
+  };
+
+  // Guardar cambios del aula
+  const handleSaveClassroom = async () => {
+    const trimmedName = editForm.name.trim();
+    if (!trimmedName) {
+      setEditError('El nombre del aula es obligatorio.');
+      return;
+    }
+    if (editForm.description.length > 100) {
+      setEditError('La descripción no puede superar los 100 caracteres.');
+      return;
+    }
+
+    setEditLoading(true);
+    setEditError('');
+    try {
+      const updated = await api.updateClassroom(id, {
+        name: trimmedName,
+        section: editForm.section.trim(),
+        description: editForm.description.trim(),
+      });
+      setClassroom(updated);
+      setIsEditClassroomOpen(false);
+    } catch (err) {
+      setEditError(err.message || 'Error al guardar los cambios.');
+    } finally {
+      setEditLoading(false);
+    }
+  };
+
   // ── Render ────────────────────────────────────────────────────────────────
 
   return (
@@ -210,9 +256,19 @@ const ClassroomDetail = () => {
         </button>
 
         <div className="classroom-header-title-group">
-          <h1 className="classroom-title">{classroomName}</h1>
+          <div className="classroom-title-row">
+            <h1 className="classroom-title">{classroomName}</h1>
+            {user?.role === 'teacher' && (
+              <button className="classroom-edit-btn" onClick={handleOpenEditClassroom}>
+                Editar aula
+              </button>
+            )}
+          </div>
           {classroom?.section && (
             <span className="classroom-subtitle">Sección: {classroom.section}</span>
+          )}
+          {classroom?.description && (
+            <span className="classroom-description">{classroom.description}</span>
           )}
         </div>
 
@@ -653,6 +709,74 @@ const ClassroomDetail = () => {
         onClose={() => setSelectedGradingTask(null)}
         task={selectedGradingTask}
       />
+
+      {/* Modal Editar Aula (Docente) */}
+      {isEditClassroomOpen && (
+        <div className="edit-classroom-overlay" onClick={() => setIsEditClassroomOpen(false)}>
+          <div className="edit-classroom-modal" onClick={(e) => e.stopPropagation()}>
+            <h3 className="edit-classroom-modal__title">Editar Aula</h3>
+
+            <label className="edit-classroom-modal__label">
+              Nombre
+              <input
+                className="edit-classroom-modal__input"
+                type="text"
+                value={editForm.name}
+                onChange={(e) => setEditForm({ ...editForm, name: e.target.value })}
+                placeholder="Nombre del aula"
+                disabled={editLoading}
+              />
+            </label>
+
+            <label className="edit-classroom-modal__label">
+              Sección
+              <input
+                className="edit-classroom-modal__input"
+                type="text"
+                value={editForm.section}
+                onChange={(e) => setEditForm({ ...editForm, section: e.target.value })}
+                placeholder="Opcional"
+                disabled={editLoading}
+              />
+            </label>
+
+            <label className="edit-classroom-modal__label">
+              Descripción
+              <textarea
+                className="edit-classroom-modal__textarea"
+                value={editForm.description}
+                onChange={(e) => setEditForm({ ...editForm, description: e.target.value })}
+                placeholder="Describe el aula (máx. 100 caracteres)"
+                maxLength={100}
+                rows={3}
+                disabled={editLoading}
+              />
+              <span className="edit-classroom-modal__char-count">
+                {editForm.description.length}/100
+              </span>
+            </label>
+
+            {editError && (
+              <p className="edit-classroom-modal__error">{editError}</p>
+            )}
+
+            <div className="edit-classroom-modal__actions">
+              <button
+                className="edit-classroom-modal__btn edit-classroom-modal__btn--cancel"
+                onClick={() => setIsEditClassroomOpen(false)}
+                disabled={editLoading}>
+                Cancelar
+              </button>
+              <button
+                className="edit-classroom-modal__btn edit-classroom-modal__btn--save"
+                onClick={handleSaveClassroom}
+                disabled={editLoading}>
+                {editLoading ? 'Guardando...' : 'Guardar'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

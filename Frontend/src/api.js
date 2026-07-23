@@ -70,6 +70,11 @@ export const api = {
     return api.get(`/classrooms/${classroomId}`);
   },
 
+  // Actualiza la información de un aula (nombre, sección, descripción)
+  updateClassroom: async (classroomId, data) => {
+    return api.put(`/classrooms/${classroomId}`, data);
+  },
+
   // Obtiene la lista de alumnos inscritos en un aula
   getStudents: async (classroomId) => {
     return api.get(`/classrooms/${classroomId}/students`);
