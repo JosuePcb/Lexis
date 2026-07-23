@@ -1,7 +1,8 @@
 // api.js — Cliente HTTP centralizado para comunicarse con el backend
 // Reemplaza fetch() suelto en cada componente. Adjunta automáticamente el JWT y maneja errores.
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+
 
 // Construye los headers incluyendo el token JWT si el usuario tiene sesión activa
 const getHeaders = () => {
