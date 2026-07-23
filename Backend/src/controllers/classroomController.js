@@ -294,7 +294,7 @@ export const getClassroomStudents = async (req, res) => {
 export const kickStudent = async (req, res) => {
   try {
     const courseId = req.params.id;
-    const studentId = parseInt(req.params.studentId, 10);
+    const studentId = req.params.studentId;
     const requestorId = req.user.id;
 
     // Busca el curso para validar existencia y permisos
