@@ -157,6 +157,40 @@ export const joinClassroom = async (req, res) => {
 
 
 
+// GET /api/classrooms/:id
+// Devuelve la información detallada de un aula si el usuario es docente del curso o tiene un enrollment activo.
+export const getClassroomById = async (req, res) => {
+  try {
+    const { id: courseId } = req.params;
+    const userId = req.user.id;
+
+    const course = await Course.findByPk(courseId, {
+      include: [
+        { model: User, as: "teacher", attributes: ["id", "name", "email"] },
+      ],
+    });
+
+    if (!course) {
+      return res.status(404).json({ error: { message: "Aula no encontrada" } });
+    }
+
+    const isTeacher = course.teacherId === userId;
+    if (!isTeacher) {
+      const activeEnrollment = await Enrollment.findOne({
+        where: { userId, courseId, status: "active" },
+      });
+      if (!activeEnrollment) {
+        return res.status(403).json({ error: { message: "No tienes acceso a este aula" } });
+      }
+    }
+
+    res.json(course);
+  } catch (error) {
+    console.error("Error fetching classroom by id:", error);
+    res.status(500).json({ error: { message: "Error al obtener la información del aula" } });
+  }
+};
+
 export const updateClassroom = async (req, res) => {
   res.status(501).json({ message: "Update classroom not implemented yet" });
 };

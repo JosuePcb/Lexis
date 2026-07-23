@@ -31,3 +31,8 @@ dist-ssr
 # Docker volumes locales
 postgres_data/
 pgadmin_data/
+
+# Cargas de archivos locales (preservar carpeta Backend/uploads, ignorar contenido subido)
+Backend/uploads/*
+!Backend/uploads/.gitkeep
+
