@@ -17,7 +17,15 @@
     outline: 2.5px solid rgba(220, 220, 210, 0.6);
     outline-offset: -6px;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
+    animation: fadeInUp 0.35s ease backwards;
 }
+
+.home__grid .roomcard:nth-child(1) { animation-delay: 0.0s; }
+.home__grid .roomcard:nth-child(2) { animation-delay: 0.06s; }
+.home__grid .roomcard:nth-child(3) { animation-delay: 0.12s; }
+.home__grid .roomcard:nth-child(4) { animation-delay: 0.18s; }
+.home__grid .roomcard:nth-child(5) { animation-delay: 0.24s; }
+.home__grid .roomcard:nth-child(6) { animation-delay: 0.3s; }
 
 .roomcard:hover {
     transform: translateY(-4px) scale(1.01);

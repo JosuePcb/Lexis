@@ -125,12 +125,16 @@
   font-weight: 600;
   padding: 0.25rem 0.5rem;
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
 }
 
 .code-copy-btn:hover {
   border-color: var(--color-accent);
   background-color: var(--color-bg);
+}
+
+.code-copy-btn:active {
+  transform: scale(0.93);
 }
 
 .code-copy-btn--copied {
@@ -144,6 +148,7 @@
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: fadeIn 0.25s ease;
 }
 
 .tasks-header {
@@ -162,11 +167,15 @@
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s ease;
+  transition: opacity 0.2s ease, transform 0.1s ease;
 }
 
 .create-task-btn:hover {
   opacity: 0.9;
+}
+
+.create-task-btn:active {
+  transform: scale(0.97);
 }
 
 .tasks-list {
@@ -186,7 +195,14 @@
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  animation: fadeInUp 0.3s ease both;
 }
+
+.tasks-list .task-card:nth-child(1) { animation-delay: 0.0s; }
+.tasks-list .task-card:nth-child(2) { animation-delay: 0.05s; }
+.tasks-list .task-card:nth-child(3) { animation-delay: 0.1s; }
+.tasks-list .task-card:nth-child(4) { animation-delay: 0.15s; }
+.tasks-list .task-card:nth-child(5) { animation-delay: 0.2s; }
 
 .task-card__header {
   display: flex;
@@ -358,6 +374,7 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease;
 }
 
 .announcement-form__textarea {
@@ -412,7 +429,12 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease both;
 }
+
+.wall .announcement-card:nth-child(1) { animation-delay: 0.0s; }
+.wall .announcement-card:nth-child(2) { animation-delay: 0.05s; }
+.wall .announcement-card:nth-child(3) { animation-delay: 0.1s; }
 
 /* Fila superior del anuncio: autor + fecha */
 .announcement-header {
@@ -503,7 +525,7 @@
   padding: 0.45rem 0.9rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.1s ease;
 }
 
 .comment-form__btn:hover {
@@ -511,11 +533,21 @@
   background-color: var(--color-bg);
 }
 
+.comment-form__btn:active {
+  transform: scale(0.95);
+}
+
+/* ── Muro ────────────────────────────────────────────────────────────────── */
+.wall {
+  animation: fadeIn 0.25s ease;
+}
+
 /* ── Panel de personas ─────────────────────────────────────────────────────── */
 .students-panel {
   display: flex;
   flex-direction: column;
   gap: 0.85rem;
+  animation: fadeIn 0.25s ease;
 }
 
 .students-panel__title {
@@ -538,7 +570,13 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease both;
 }
+
+.students-panel .student-row:nth-child(1) { animation-delay: 0.0s; }
+.students-panel .student-row:nth-child(2) { animation-delay: 0.05s; }
+.students-panel .student-row:nth-child(3) { animation-delay: 0.1s; }
+.students-panel .student-row:nth-child(4) { animation-delay: 0.15s; }
 
 .student-info {
   display: flex;
@@ -570,7 +608,7 @@
   padding: 0.4rem 0.9rem;
   cursor: pointer;
   white-space: nowrap;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease, transform 0.1s ease;
 }
 
 .kick-btn:hover {
@@ -578,11 +616,16 @@
   color: #fff;
 }
 
+.kick-btn:active {
+  transform: scale(0.95);
+}
+
 /* ── Panel de Calificaciones ──────────────────────────────────────────────── */
 .gradebook-panel {
   display: flex;
   flex-direction: column;
   gap: 1.25rem;
+  animation: fadeIn 0.25s ease;
 }
 
 .gradebook-table-header {
@@ -631,6 +674,7 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease;
 }
 
 .gradebook-table {
@@ -761,7 +805,14 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease both;
 }
+
+.gradebook-stats .gradebook-stat-card:nth-child(1) { animation-delay: 0.0s; }
+.gradebook-stats .gradebook-stat-card:nth-child(2) { animation-delay: 0.05s; }
+.gradebook-stats .gradebook-stat-card:nth-child(3) { animation-delay: 0.1s; }
+.gradebook-stats .gradebook-stat-card:nth-child(4) { animation-delay: 0.15s; }
+.gradebook-stats .gradebook-stat-card:nth-child(5) { animation-delay: 0.2s; }
 
 .gradebook-stat-card--highlight {
   background-color: var(--color-accent);
@@ -801,7 +852,13 @@
     0 0 0 2px #1a1a1a,
     0 0 0 4px rgba(220, 220, 210, 0.75),
     2px 2px 0 4px #1a1a1a;
+  animation: fadeInUp 0.3s ease both;
 }
+
+.gradebook-history .gradebook-history-card:nth-child(1) { animation-delay: 0.0s; }
+.gradebook-history .gradebook-history-card:nth-child(2) { animation-delay: 0.05s; }
+.gradebook-history .gradebook-history-card:nth-child(3) { animation-delay: 0.1s; }
+.gradebook-history .gradebook-history-card:nth-child(4) { animation-delay: 0.15s; }
 
 .gradebook-history-card__header {
   display: flex;
@@ -885,6 +942,7 @@
   align-items: center;
   justify-content: center;
   z-index: 200;
+  animation: fadeIn 0.2s ease;
 }
 
 .edit-classroom-modal {
@@ -897,6 +955,7 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  animation: scaleIn 0.2s ease;
 }
 
 .edit-classroom-modal__title {
