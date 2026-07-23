@@ -587,6 +587,12 @@
 }
 
 /* ── Tabla del docente ─────────────────────────────────────────────────────── */
+.gradebook-table-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
 .gradebook-table-scroll {
   overflow-x: auto;
   border-radius: 8px;
